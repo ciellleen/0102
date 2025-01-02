@@ -1,0 +1,55 @@
+# c로 라즈베리파이의 GPIO를 제어하기 위해서 설치해야 할 툴
+
+- putty 창에서 sudo apt-get install git-core를 입력하여 설치
+- git clone git://git.drogon.net/wiringPi로 설치하면 됨.
+- 설치가 끝나면 제대로 설치되었는지 gpio-v로 확인하고 정상적이면 gpio readall로 확인함
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/3b7bd1fa-95f9-4c65-a608-e60c0dfcfcc9/image.png)
+
+![2025-01-02-184250_1024x768_scrot.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/f9d7f8cb-bbc8-4195-bb5d-c70a6a28d93c/7438150b-def9-4411-9b42-4de6ed4cadb0.png)
+
+<aside>
+💡
+
+위의 사진에 나와있는 테이블에서 BCM, wPi 핀번호를 보고 wiringPi 라이브러리를 사용해 소스를 작성하면 됨.
+
+</aside>
+
+# 코드
+
+- notepad++에서 간단한 LED 점등 소스를 c로 작성
+
+```c
+#inlcude <stdio.h>
+#inlcude <wiringPi.h>
+
+#define OUTPUT_PIN 20
+
+void main(void)
+{
+	printf("Rasberry Pi3 - LED Blink\n");
+	
+	wiringPoSetupGpio();
+	pinMode(OUTPUT_PIN, OUTPUT);
+	
+	for(;;)
+	{
+		digitalWrite(OUTPUT_PIN, HIGH);
+		delay(200);
+		digitalWrite(OUTPUT_PIN, LOW);
+		delay(200);
+	}
+}
+```
+
+![2025-01-02-185039_1024x768_scrot.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/1586a6b9-2d2f-45c5-99c8-a9ba45c34d26/533ed145-30ff-4f13-8360-82c319d51622.png)
+
+# 그 후 작업
+
+- 소스를 작성한 파일을 PUTTY 창에서 컴파일 해줘야 실행 가능함.
+- PUTTY 창에 sudo gcc -o 파일명 파일명.c -lwiringPi를 입력하면 실행 파일이 만들어짐.
+- 만든 후 PUTTY 창에 sudo ./ 파일명을 입력하면 정상적으로 작동됨.
+
+# 실행 영상
+
+[KakaoTalk_20250102_185631180.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/40f7a49e-8207-4417-a020-c47c6e4980e5/KakaoTalk_20250102_185631180.mp4)
